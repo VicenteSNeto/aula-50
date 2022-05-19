@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+
+        <div id="form">
+    
+            <input type ="text" id="cep" placeholder="CEP">
+            <input type = "submit" id="btn_cep" onclick="displayData()" value="Pesquisar o CEP">
+            <input type ="submit" id="btn_street" onclick="displayStreet()" value="Pesquisar a Rua do CEP">
+            
+            <p id="address"></p>
+            <p id="city"></p>
+            <p id="district"></p>
+        </div>
+    
+        <p id="error"></p>
+    
+    </div>
+       
+</body>
+
+<script>
+const address = const getCep = async () => {
+
+        const cep = document.getElementById("cep").value
+
+        const viacep_url = `https://viacep.com.br/ws/${cep}/json/`
+
+        console.log(viacep_url)
+
+        try {
+            
+            const response = await fetch(viacep_url)
+            const json_response = await response.json()
+
+            console.log(json_response)
+
+            //await displayData(json_response)
+
+            return json_response
+
+        } catch (error) {
+            document.getElementById("error").innerHTML = error.message
+        }
+
+    }
+const displayStreet = async() =>{
+
+        const json_address = await getCep()
+
+        console.log("RUA DO CEP: ", json_address.logradouro)
+
+        address.innerHTML = json_address.logradouro
+
+    }
+
+</script>
+</html>
